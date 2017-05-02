@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">persistence</string>
+    <string name="database_name">kunidirectional.realm</string>
+</resources>

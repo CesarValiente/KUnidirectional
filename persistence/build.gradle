@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner rootProject.ext.testInstrumentationRunner
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+}
+
+dependencies {
+    compile project(':store')
+
+    compile kotlinDependencies.kotlinStdlib
+    compile kotlinDependencies.kotlinReflect
+
+    androidTestCompile supportDependencies.supportAnnotations
+    androidTestCompile instrumentationTestDependencies.testRunner
+    androidTestCompile instrumentationTestDependencies.testRules
+    androidTestCompile unitTestDependencies.mockito
+    androidTestCompile unitTestDependencies.dexmakerMockito
+    androidTestCompile unitTestDependencies.mockitoKotlin
+
+    testCompile unitTestDependencies.junit
+    testCompile unitTestDependencies.mockito
+    testCompile unitTestDependencies.hamcrestLibrary
+    testCompile unitTestDependencies.hamcrestCore
+}
