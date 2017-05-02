@@ -1,6 +1,6 @@
 # KUnidirectional [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5908f6a7373b6b00019c11b3&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/5908f6a7373b6b00019c11b3/build/latest?branch=master)
 
-Sample app that shows how we can apply **unidirectional data flow architecture** on **Android**.
+Sample app that shows how we can apply **unidirectional data flow architecture** on **Android** using **Kotlin**.
 
 # Motivation
 
@@ -165,10 +165,10 @@ Of course that we have problems, this is not the *Philosopher's Stone of the arc
 <br/> For instance, a list of things that we have not covered here (nor in the slides) but are really important:
 <br/>
 - Concurrency problems, since we are running the different components on different threads we can have concurrency problems when we want to handle actions in a specific order.
-- Side effects, how an action that has been by a middleware can create side effects that we need in other parts of the app and to make even more difficult this, in a specific order?
+- Side effects, how an action that has been handled by a middleware can create side effects that we need in other parts of the app and to make even more difficult this, in a specific order?
 - Several actions that run always one after the other in some cases but not always.
-- How can we cancel actions of being reduced (or applied) when we already know that are not needed anymore (so we don't waste resources)?
-- How can we deal with too much information (memory allocated) in our State so we don't keep a reference to everything in our app?
+- How can we cancel actions from being reduced (or applied) when we already know that are not needed anymore (so we don't waste resources)?
+- How can we deal with too much information (memory allocation) in our State so we don't keep a reference to everything in our app?
 - How can we improve the navigation stack of our app/state?
 - etc.
 
