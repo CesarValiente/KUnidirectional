@@ -1,0 +1,88 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    def Properties versionProps = readVersionProps()
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        versionName versionProps['name']
+        versionCode versionProps['code'].toInteger()
+        applicationId versionProps['applicationId']
+
+        testInstrumentationRunner rootProject.ext.customTestInstrumentationRunner
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    //In a feature set scheme, here we can have our resources grouped by them
+    sourceSets {
+        main {
+            res.srcDirs += [
+                    'src/main/res/main',
+                    'src/main/res/itemslist',
+                    'src/main/res/edititem']
+            java.srcDirs += 'src/main/kotlin'
+        }
+        test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile project(':persistence')
+    compile project(':store')
+
+    //Kotlin & anko
+    compile kotlinDependencies.kotlinStdlib
+    compile ankoDependencies.ankoCommon
+
+    //Android Support Library
+    compile supportDependencies.supportV4
+    compile supportDependencies.supportAnnotations
+    compile supportDependencies.appCompatV7
+    compile supportDependencies.recyclerViewV7
+    compile supportDependencies.cardViewV7
+    compile supportDependencies.supportDesign
+    
+    //Instrumentation tests
+    androidTestCompile supportDependencies.supportAnnotations
+    androidTestCompile instrumentationTestDependencies.testRunner
+    androidTestCompile instrumentationTestDependencies.testRules
+    androidTestCompile instrumentationTestDependencies.espressoCore
+    androidTestCompile instrumentationTestDependencies.espressoContrib
+    androidTestCompile instrumentationTestDependencies.espressoIdlingResources
+
+    //Unit tests
+    testCompile unitTestDependencies.junit
+    testCompile unitTestDependencies.mockito
+    testCompile unitTestDependencies.hamcrestLibrary
+    testCompile unitTestDependencies.hamcrestCore
+    testCompile unitTestDependencies.robolectric
+    testCompile unitTestDependencies.mockitoKotlin
+}
+
+def readVersionProps() {
+    def Properties props = new Properties()
+    props.load(new FileInputStream(file('../version.properties')))
+    return props
+}
