@@ -1,0 +1,76 @@
+ext {
+    //Main configuration values
+    gradlePluginVersion = "2.3.1"
+    kotlinVersion = "1.1.2"
+    realmVersion = "3.0.0"
+    compileSdkVersion = 25
+    buildToolsVersion = '25.0.3'
+    targetSdkVersion = compileSdkVersion
+    minSdkVersion = 19
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    customTestInstrumentationRunner = "com.cesarvaliente.kunidirectional.TestRunner"
+
+    //Anko
+    ankoVersion = '0.9.1a'
+
+    // Support Libraries
+    supportVersion = "25.2.0"
+
+    // Instrumentation test
+    espressoVersion = "2.2.2"
+    testRunnerVersion = "0.5"
+    testRulesVersion = "0.5"
+
+    //Unit test
+    junitVersion = "4.12"
+    mockitoVersion = "2.7.12"
+    hamcrestVersion = "1.3"
+    robolectricVersion = "3.2.2"
+    dexmakerMockitoVersion = "2.2.0"
+    mockitoKotlinVersion = "1.3.0"
+
+    config = [
+            gradlePlugin           : "com.android.tools.build:gradle:$gradlePluginVersion",
+            kotlinGradlePlugin     : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            kotlinAndroidExtensions: "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion",
+            kotlinAllOpen          : "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion",
+            realmPlugin            : "io.realm:realm-gradle-plugin:$realmVersion"
+    ]
+
+    kotlinDependencies = [
+            kotlinStdlib : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+            kotlinReflect: "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    ]
+
+    ankoDependencies = [
+            ankoCommon: "org.jetbrains.anko:anko-common:$ankoVersion"
+    ]
+
+    supportDependencies = [
+            supportV4         : "com.android.support:support-v4:${supportVersion}",
+            supportAnnotations: "com.android.support:support-annotations:${supportVersion}",
+            appCompatV7       : "com.android.support:appcompat-v7:${supportVersion}",
+            recyclerViewV7    : "com.android.support:recyclerview-v7:${supportVersion}",
+            cardViewV7        : "com.android.support:cardview-v7:${supportVersion}",
+            supportDesign     : "com.android.support:design:${supportVersion}",
+            supportCoreUtils  : "com.android.support:support-core-utils:${supportVersion}"
+    ]
+    
+    instrumentationTestDependencies = [
+            espressoCore           : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            espressoContrib        : "com.android.support.test.espresso:espresso-contrib:${espressoVersion}",
+            espressoIdlingResources: "com.android.support.test.espresso:espresso-idling-resource:${espressoVersion}",
+            testRunner             : "com.android.support.test:runner:${testRunnerVersion}",
+            testRules              : "com.android.support.test:rules:${testRulesVersion}"
+    ]
+
+    unitTestDependencies = [
+            junit          : "junit:junit:${junitVersion}",
+            mockito        : "org.mockito:mockito-core:${mockitoVersion}",
+            hamcrestLibrary: "org.hamcrest:hamcrest-library:${hamcrestVersion}",
+            hamcrestCore   : "org.hamcrest:hamcrest-core:${hamcrestVersion}",
+            robolectric    : "org.robolectric:robolectric:${robolectricVersion}",
+            dexmakerMockito: "com.linkedin.dexmaker:dexmaker-mockito:${dexmakerMockitoVersion}",
+            mockitoKotlin  : "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}"
+    ]
+}
