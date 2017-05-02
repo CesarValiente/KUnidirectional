@@ -1,4 +1,4 @@
-# KUnidirectional
+# KUnidirectional [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5908f6a7373b6b00019c11b3&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/5908f6a7373b6b00019c11b3/build/latest?branch=master)
 
 Sample app that shows how we can apply **unidirectional data flow architecture** on **Android**.
 
