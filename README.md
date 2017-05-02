@@ -10,7 +10,7 @@ Talking about architecture is always tough, so as support for the talk and slide
 
 # Slides
 
-The slides of the talk **Unidirectional data flow on Android using Kotlin** can be found [here](https://speakerdeck.com/cesarvaliente/unidirectional-data-flow-on-android-using-kotlin).
+The slides of the talk can be found [here](https://speakerdeck.com/cesarvaliente/unidirectional-data-flow-on-android-using-kotlin).
 
 # Tell me more!
 
@@ -161,7 +161,7 @@ Now that we know the dependencies of our different components we can say how we 
 
 # Problems?
 
-Of course that we have problems, this is not the *Philosopher's Stone of the architectures*, and as any other architecture, we have issues, difficult things to do and to improve, problems to solve, etc.
+Of course we have, this is not the *Philosopher's Stone of the architectures*, and as any other architecture, we have issues, difficult things to do and to improve, problems to solve, etc.
 <br/> For instance, a list of things that we have not covered here (nor in the slides) but are really important:
 <br/>
 - Concurrency problems, since we are running the different components on different threads we can have concurrency problems when we want to handle actions in a specific order.
@@ -171,6 +171,7 @@ Of course that we have problems, this is not the *Philosopher's Stone of the arc
 - How can we deal with too much information (memory allocation) in our State so we don't keep a reference to everything in our app?
 - How can we improve the navigation stack of our app/state?
 - etc.
+<br/><br/> Of course all these things can be fixed, and there are different and valid ways to do it, but how you want to do it is your decision :wink: 
 
 # More info?
 
