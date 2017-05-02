@@ -1,0 +1,50 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    apply from: 'dependencies.gradle'
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath config.gradlePlugin
+        classpath config.kotlinGradlePlugin
+        classpath config.kotlinAndroidExtensions
+        classpath config.kotlinAllOpen
+        classpath config.realmPlugin
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+    configurations.all {
+        resolutionStrategy {
+            failOnVersionConflict()
+
+            force kotlinDependencies.kotlinStdlib
+            force kotlinDependencies.kotlinReflect
+
+            // Since Espresso is using under the hood a lower version of the support library we currently
+            // use, and both, test and app dependencies need to be the same, we force to use the latest version.
+            // http://g.co/androidstudio/app-test-app-conflict
+            force supportDependencies.supportAnnotations
+            force supportDependencies.supportV4
+            force supportDependencies.appCompatV7
+            force supportDependencies.recyclerViewV7
+            force supportDependencies.supportDesign
+            force unitTestDependencies.hamcrestCore
+
+            //With dexmakerMockito we have dependency version problems, so we force to use our own.
+            force unitTestDependencies.mockito
+
+            // It seems robolectric has conflicts with the latest version of junit we use in our app
+            // and the version the below library uses, so we have to force both junit and "plexus" to
+            // to use the latest versions
+            force unitTestDependencies.junit
+            force "org.codehaus.plexus:plexus-utils:1.5.15"
+        }
+    }
+}

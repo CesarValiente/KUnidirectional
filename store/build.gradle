@@ -1,0 +1,16 @@
+apply plugin: 'kotlin'
+apply plugin: "kotlin-allopen"
+
+allOpen {
+    annotation("com.cesarvaliente.kunidirectional.store.AllOpen")
+}
+
+dependencies {
+    compile kotlinDependencies.kotlinStdlib
+
+    testCompile unitTestDependencies.junit
+    testCompile unitTestDependencies.mockito
+    testCompile unitTestDependencies.mockitoKotlin
+    testCompile unitTestDependencies.hamcrestLibrary
+    testCompile unitTestDependencies.hamcrestCore
+}
