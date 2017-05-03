@@ -47,8 +47,7 @@ abstract class Dispatcher<T> {
             subscriptions.forEach { it.onNext(data) }
 
     fun isSubscribed(subscriber: Subscriber<T>): Boolean {
-        val isSubscribed = subscriptions.find { it == subscriber }
-        return isSubscribed != null
+        return subscriptions.any { it == subscriber }
     }
 }
 
