@@ -17,9 +17,9 @@ ext {
     supportVersion = "26.1.0"
 
     // Instrumentation test
-    espressoVersion = "2.2.2"
-    testRunnerVersion = "0.5"
-    testRulesVersion = "0.5"
+    espressoVersion = "3.0.1"
+    testRunnerVersion = "1.0.1"
+    testRulesVersion = "1.0.1"
 
     //Unit test
     junitVersion = "4.12"
