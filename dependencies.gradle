@@ -47,7 +47,8 @@ ext {
     ]
 
     supportDependencies = [
-            supportV4         : "com.android.support:support-v4:${supportVersion}",
+            supportCoreUiV4   : "com.android.support:support-core-ui:${supportVersion}",
+            supportFragmentV4 : "com.android.support:support-fragment:${supportVersion}",
             supportAnnotations: "com.android.support:support-annotations:${supportVersion}",
             appCompatV7       : "com.android.support:appcompat-v7:${supportVersion}",
             recyclerViewV7    : "com.android.support:recyclerview-v7:${supportVersion}",
