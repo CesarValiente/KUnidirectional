@@ -1,25 +1,25 @@
 ext {
     //Main configuration values
-    gradlePluginVersion = "2.3.1"
-    kotlinVersion = "1.1.2"
-    realmVersion = "3.0.0"
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.3'
+    gradlePluginVersion = "2.3.3"
+    kotlinVersion = "1.1.4-3"
+    realmVersion = "3.7.2"
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 19
     testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     customTestInstrumentationRunner = "com.cesarvaliente.kunidirectional.TestRunner"
 
     //Anko
-    ankoVersion = '0.9.1a'
+    ankoVersion = '0.10.1'
 
     // Support Libraries
-    supportVersion = "25.2.0"
+    supportVersion = "26.1.0"
 
     // Instrumentation test
-    espressoVersion = "2.2.2"
-    testRunnerVersion = "0.5"
-    testRulesVersion = "0.5"
+    espressoVersion = "3.0.1"
+    testRunnerVersion = "1.0.1"
+    testRulesVersion = "1.0.1"
 
     //Unit test
     junitVersion = "4.12"
@@ -47,7 +47,8 @@ ext {
     ]
 
     supportDependencies = [
-            supportV4         : "com.android.support:support-v4:${supportVersion}",
+            supportCoreUiV4   : "com.android.support:support-core-ui:${supportVersion}",
+            supportFragmentV4 : "com.android.support:support-fragment:${supportVersion}",
             supportAnnotations: "com.android.support:support-annotations:${supportVersion}",
             appCompatV7       : "com.android.support:appcompat-v7:${supportVersion}",
             recyclerViewV7    : "com.android.support:recyclerview-v7:${supportVersion}",
@@ -55,7 +56,7 @@ ext {
             supportDesign     : "com.android.support:design:${supportVersion}",
             supportCoreUtils  : "com.android.support:support-core-utils:${supportVersion}"
     ]
-    
+
     instrumentationTestDependencies = [
             espressoCore           : "com.android.support.test.espresso:espresso-core:${espressoVersion}",
             espressoContrib        : "com.android.support.test.espresso:espresso-contrib:${espressoVersion}",

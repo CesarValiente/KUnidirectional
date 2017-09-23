@@ -57,13 +57,14 @@ dependencies {
     compile ankoDependencies.ankoCommon
 
     //Android Support Library
-    compile supportDependencies.supportV4
+    compile supportDependencies.supportCoreUiV4
+    compile supportDependencies.supportFragmentV4
     compile supportDependencies.supportAnnotations
     compile supportDependencies.appCompatV7
     compile supportDependencies.recyclerViewV7
     compile supportDependencies.cardViewV7
     compile supportDependencies.supportDesign
-    
+
     //Instrumentation tests
     androidTestCompile supportDependencies.supportAnnotations
     androidTestCompile instrumentationTestDependencies.testRunner
