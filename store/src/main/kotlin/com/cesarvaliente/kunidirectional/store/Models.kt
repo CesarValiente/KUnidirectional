@@ -23,6 +23,10 @@ import java.util.UUID
 
 const val LOCAL_ID = "localId"
 
+interface PositionsFactory {
+    fun newPosition() = System.nanoTime()
+}
+
 fun generateLocalId(): String = LOCAL_ID + "_" + UUID.randomUUID().toString().replace("-".toRegex(), "")
 
 enum class Color {
