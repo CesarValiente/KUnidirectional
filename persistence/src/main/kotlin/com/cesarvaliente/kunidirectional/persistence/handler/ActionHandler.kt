@@ -17,11 +17,10 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.action.Action
+import com.cesarvaliente.kunidirectional.store.Action
 
-internal interface ActionFunction<in T : Action> {
-    fun apply(action: T, actionDispatcher: ActionDispatcher? = null)
+internal interface ActionHandler<in T : Action> {
+    fun handle(action: T, actionDispatcher: (Action) -> Unit)
 }

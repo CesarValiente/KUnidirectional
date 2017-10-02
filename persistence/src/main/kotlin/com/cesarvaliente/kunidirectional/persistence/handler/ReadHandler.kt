@@ -17,30 +17,30 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import com.cesarvaliente.kunidirectional.persistence.queryAllItemsSortedByPosition
 import com.cesarvaliente.kunidirectional.persistence.toStoreItemsList
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.action.ReadAction
-import com.cesarvaliente.kunidirectional.store.action.ReadAction.FetchItemsAction
-import com.cesarvaliente.kunidirectional.store.action.ReadAction.ItemsLoadedAction
+import com.cesarvaliente.kunidirectional.store.Action
+import com.cesarvaliente.kunidirectional.store.ReadAction
+import com.cesarvaliente.kunidirectional.store.ReadAction.FetchItemsAction
+import com.cesarvaliente.kunidirectional.store.ReadAction.ItemsLoadedAction
 import io.realm.Realm
 
-object ReadFunctions : ActionFunction<ReadAction> {
+object ReadHandler : ActionHandler<ReadAction> {
 
-    override fun apply(action: ReadAction, actionDispatcher: ActionDispatcher?) {
+    override fun handle(action: ReadAction, actionDispatcher: (Action) -> Unit) {
         when (action) {
             is FetchItemsAction -> fetchAllItems(actionDispatcher)
         }
     }
 
-    private fun fetchAllItems(actionDispatcher: ActionDispatcher?) {
+    private fun fetchAllItems(actionDispatcher: (Action) -> Unit) {
         val db = Realm.getDefaultInstance()
         val persistenceItems = db.queryAllItemsSortedByPosition()
         val storeItems = persistenceItems.toStoreItemsList()
         db.close()
 
-        actionDispatcher?.dispatch(ItemsLoadedAction(storeItems))
+        actionDispatcher.invoke(ItemsLoadedAction(storeItems))
     }
 }

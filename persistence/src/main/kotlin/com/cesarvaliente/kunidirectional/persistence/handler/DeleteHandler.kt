@@ -17,18 +17,18 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import com.cesarvaliente.kunidirectional.persistence.delete
 import com.cesarvaliente.kunidirectional.persistence.queryByLocalId
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.action.DeleteAction
-import com.cesarvaliente.kunidirectional.store.action.DeleteAction.DeleteItemAction
+import com.cesarvaliente.kunidirectional.store.Action
+import com.cesarvaliente.kunidirectional.store.DeleteAction
+import com.cesarvaliente.kunidirectional.store.DeleteAction.DeleteItemAction
 import io.realm.Realm
 
-object DeleteFunctions : ActionFunction<DeleteAction> {
+object DeleteHandler : ActionHandler<DeleteAction> {
 
-    override fun apply(action: DeleteAction, actionDispatcher: ActionDispatcher?) {
+    override fun handle(action: DeleteAction, actionDispatcher: (Action) -> Unit) {
         when (action) {
             is DeleteItemAction -> deleteItem(action)
         }
