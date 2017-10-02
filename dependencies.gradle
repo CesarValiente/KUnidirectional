@@ -33,7 +33,6 @@ ext {
             gradlePlugin           : "com.android.tools.build:gradle:$gradlePluginVersion",
             kotlinGradlePlugin     : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
             kotlinAndroidExtensions: "org.jetbrains.kotlin:kotlin-android-extensions:$kotlinVersion",
-            kotlinAllOpen          : "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion",
             realmPlugin            : "io.realm:realm-gradle-plugin:$realmVersion"
     ]
 

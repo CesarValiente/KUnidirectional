@@ -1,9 +1,4 @@
 apply plugin: 'kotlin'
-apply plugin: "kotlin-allopen"
-
-allOpen {
-    annotation("com.cesarvaliente.kunidirectional.store.AllOpen")
-}
 
 dependencies {
     compile kotlinDependencies.kotlinStdlib
