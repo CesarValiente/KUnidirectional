@@ -17,19 +17,15 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import com.cesarvaliente.kunidirectional.persistence.createPersistenceItem
-import com.cesarvaliente.kunidirectional.persistence.insertOrUpdate
-import com.cesarvaliente.kunidirectional.persistence.toStoreItem
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.action.ReadAction
-import com.cesarvaliente.kunidirectional.store.action.ReadAction.FetchItemsAction
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.spy
-import com.nhaarman.mockito_kotlin.verify
+import com.cesarvaliente.kunidirectional.persistence.assertIsEqualsTo
+import com.cesarvaliente.kunidirectional.persistence.createStoreItem
+import com.cesarvaliente.kunidirectional.persistence.queryAllItemsSortedByPosition
+import com.cesarvaliente.kunidirectional.persistence.toPersistenceItem
+import com.cesarvaliente.kunidirectional.store.CreationAction
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.hamcrest.CoreMatchers.not
@@ -45,7 +41,7 @@ import com.cesarvaliente.kunidirectional.store.Item as StoreItem
 import org.hamcrest.core.Is.`is` as iz
 
 @RunWith(AndroidJUnit4::class)
-class ReadFunctionsTest {
+class CreationHandlerTest {
     lateinit var config: RealmConfiguration
     lateinit var db: Realm
 
@@ -67,33 +63,24 @@ class ReadFunctionsTest {
     }
 
     @Test
-    fun should_fetch_all_Items() {
-        val item1 = createPersistenceItem(1)
-        val item2 = createPersistenceItem(2)
-        val item3 = createPersistenceItem(3)
+    fun should_create_Item() {
+        val item = createStoreItem(1)
 
-        item1.insertOrUpdate(db)
-        item2.insertOrUpdate(db)
-        item3.insertOrUpdate(db)
-
-        val fetchItemsAction = FetchItemsAction()
-        val actionDispatcherSpy = spy(ActionDispatcher())
-
-        ReadFunctions.apply(action = fetchItemsAction, actionDispatcher = actionDispatcherSpy)
-        argumentCaptor<ReadAction.ItemsLoadedAction>().apply {
-            verify(actionDispatcherSpy).dispatch(capture())
-
-            with(lastValue.items) {
-                assertThat(this, iz(not(emptyList())))
-                assertThat(this.size, iz(3))
-
-                assertThat(component1(), iz(item1.toStoreItem()))
-                assertThat(component2(), iz(item2.toStoreItem()))
-                assertThat(component3(), iz(item3.toStoreItem()))
-            }
+        val createItemAction = with(item) {
+            CreationAction.CreateItemAction(
+                    localId = localId,
+                    text = text!!,
+                    favorite = favorite,
+                    color = color,
+                    position = position)
         }
 
+        CreationHandler.handle(createItemAction, {})
 
+        val itemsCollection = db.queryAllItemsSortedByPosition()
+        assertThat(itemsCollection, iz(not(emptyList<PersistenceItem>())))
+        assertThat(itemsCollection.size, iz(1))
+
+        itemsCollection.component1().assertIsEqualsTo(item.toPersistenceItem())
     }
-
 }

@@ -21,9 +21,9 @@ package com.cesarvaliente.kunidirectional.store.reducer
 
 import com.cesarvaliente.kunidirectional.store.EditItemScreen
 import com.cesarvaliente.kunidirectional.store.Navigation
-import com.cesarvaliente.kunidirectional.store.action.NavigationAction
-import com.cesarvaliente.kunidirectional.store.action.NavigationAction.EditItemScreenAction
-import com.cesarvaliente.kunidirectional.store.action.NavigationAction.ItemsScreenAction
+import com.cesarvaliente.kunidirectional.store.NavigationAction
+import com.cesarvaliente.kunidirectional.store.NavigationAction.EditItemScreenAction
+import com.cesarvaliente.kunidirectional.store.NavigationAction.ItemsScreenAction
 
 object NavigationReducer : Reducer<NavigationAction>() {
 

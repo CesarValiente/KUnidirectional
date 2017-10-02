@@ -17,24 +17,20 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence
+package com.cesarvaliente.kunidirectional
 
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import org.junit.Assert.assertThat
-import org.junit.Test
-import org.hamcrest.CoreMatchers.`is` as iz
+import android.util.Log
+import com.cesarvaliente.kunidirectional.store.State
+import com.cesarvaliente.kunidirectional.store.Store
 
-class PersistenceActionSubscriberTest {
-    val actionDispatcher = ActionDispatcher()
+object TestStore : Store(
+        storeThread = null,
+        logger = { tag, message -> Log.d(tag, message) }) {
 
-    @Test
-    fun should_subscribe_to_dispatcher() {
-        val persistenceActionSubscriber = PersistenceActionSubscriber(
-                actionDispatcher = actionDispatcher)
-
-        with(actionDispatcher) {
-            assertThat(isEmpty(), iz(false))
-            assertThat(isSubscribed(persistenceActionSubscriber), iz(true))
-        }
+    fun clear() {
+        sideEffects.clear()
+        stateHandlers.clear()
+        state = State()
     }
 }
+

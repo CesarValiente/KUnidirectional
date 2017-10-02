@@ -21,8 +21,8 @@ package com.cesarvaliente.kunidirectional.store.reducer
 
 import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.Navigation
-import com.cesarvaliente.kunidirectional.store.action.ReadAction
-import com.cesarvaliente.kunidirectional.store.action.ReadAction.ItemsLoadedAction
+import com.cesarvaliente.kunidirectional.store.ReadAction
+import com.cesarvaliente.kunidirectional.store.ReadAction.ItemsLoadedAction
 
 object ReadReducer : Reducer<ReadAction>() {
 

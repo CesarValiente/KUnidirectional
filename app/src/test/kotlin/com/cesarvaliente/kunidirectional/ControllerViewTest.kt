@@ -19,62 +19,59 @@
 
 package com.cesarvaliente.kunidirectional
 
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
+import com.cesarvaliente.kunidirectional.store.CreationAction.CreateItemAction
 import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.LOCAL_ID
 import com.cesarvaliente.kunidirectional.store.Navigation
 import com.cesarvaliente.kunidirectional.store.State
-import com.cesarvaliente.kunidirectional.store.StateDispatcher
-import com.cesarvaliente.kunidirectional.store.StoreActionSubscriber
-import com.cesarvaliente.kunidirectional.store.action.CreationAction.CreateItemAction
 import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.clearInvocations
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.hamcrest.CoreMatchers.not
+import org.junit.After
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.hamcrest.CoreMatchers.`is` as iz
 
 class ControllerViewTest {
-    lateinit var actionDispatcher: ActionDispatcher
-    lateinit var stateDispatcher: StateDispatcher
-    lateinit var controllerView: ControllerView
-    lateinit var controllerViewSpy: ControllerView
+    private lateinit var store: TestStore
+    private lateinit var controllerViewSpy: ControllerView
 
     @Before
     fun setup() {
-        actionDispatcher = ActionDispatcher()
-        stateDispatcher = StateDispatcher()
-
-        StoreActionSubscriber(
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher)
-
-        controllerView = object : ControllerView(
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher) {
+        store = TestStore
+        val controllerView = object : ControllerView(store = store) {
             override var isActivityRunning: Boolean = true
-            override fun handleState(state: State) {}
+            override fun handleState(appState: State) {}
         }
         controllerViewSpy = spy(controllerView)
-        controllerViewSpy.onStart()
+        store.stateHandlers.add(controllerViewSpy)
+    }
 
-        clearInvocations(controllerViewSpy)
+    @After
+    fun clean() {
+        store.clear()
     }
 
     @Test
     fun controllerView_should_subscribe_successfully() {
-        assertThat(stateDispatcher.isSubscribed(controllerViewSpy), iz(true))
+        with(store.stateHandlers) {
+            assertThat(isEmpty(), iz(false))
+            assertThat(count(), iz(1))
+            assertThat(contains(controllerViewSpy), iz(true))
+        }
     }
 
     @Test
     fun controllerView_should_unsubscribe() {
-        assertThat(stateDispatcher.isSubscribed(controllerViewSpy), iz(true))
-        assertThat(stateDispatcher.unsubscribe(controllerViewSpy), iz(true))
-        assertThat(stateDispatcher.isSubscribed(controllerViewSpy), iz(false))
+        with(store.stateHandlers) {
+            remove(controllerViewSpy)
+
+            assertThat(isEmpty(), iz(true))
+            assertThat(contains(controllerViewSpy), iz(false))
+        }
     }
 
     @Test
@@ -86,9 +83,9 @@ class ControllerViewTest {
                 newItem.text!!, newItem.favorite, newItem.color,
                 newItem.position)
 
-        actionDispatcher.dispatch(createItemAction)
+        store.dispatch(createItemAction)
 
-        argumentCaptor <State>().apply {
+        argumentCaptor<State>().apply {
             verify(controllerViewSpy).handleState(capture())
 
             with(lastValue) {
@@ -119,9 +116,9 @@ class ControllerViewTest {
                 newItem.position)
 
         controllerViewSpy.isActivityRunning = false
-        actionDispatcher.dispatch(createItemAction)
+        store.dispatch(createItemAction)
 
-        argumentCaptor <State>().apply {
+        argumentCaptor<State>().apply {
             verify(controllerViewSpy, times(0)).handleState(capture())
         }
     }

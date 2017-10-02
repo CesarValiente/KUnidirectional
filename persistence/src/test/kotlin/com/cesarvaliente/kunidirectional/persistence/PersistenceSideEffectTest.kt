@@ -17,29 +17,24 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional
+package com.cesarvaliente.kunidirectional.persistence
 
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.StateDispatcher
-import com.cesarvaliente.kunidirectional.store.StoreActionSubscriber
+import com.cesarvaliente.kunidirectional.store.Store
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.hamcrest.CoreMatchers.`is` as iz
 
-class StoreActionSubscriberTest {
-    val actionDispatcher = ActionDispatcher()
-    val stateDispatcher = StateDispatcher()
+class PersistenceSideEffectTest {
+    val store = object : Store() {}
 
     @Test
-    fun should_subscribe_to_dispatcher() {
-        val storeActionSubscriber = StoreActionSubscriber(
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher)
+    fun should_subscribe_to_store() {
+        val persistenceActionSubscriber = PersistenceSideEffect(
+                store = store)
 
-        with(actionDispatcher) {
+        with(store.sideEffects) {
             assertThat(isEmpty(), iz(false))
-            assertThat(isSubscribed(storeActionSubscriber), iz(true))
+            assertThat(contains(persistenceActionSubscriber), iz(true))
         }
     }
 }
-

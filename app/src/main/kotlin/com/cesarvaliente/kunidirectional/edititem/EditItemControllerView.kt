@@ -20,38 +20,34 @@
 package com.cesarvaliente.kunidirectional.edititem
 
 import com.cesarvaliente.kunidirectional.ControllerView
-import com.cesarvaliente.kunidirectional.actionDispatcherSingleton
-import com.cesarvaliente.kunidirectional.stateDispatcherSingleton
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
 import com.cesarvaliente.kunidirectional.store.Color
+import com.cesarvaliente.kunidirectional.store.CreationAction.CreateItemAction
 import com.cesarvaliente.kunidirectional.store.Navigation
+import com.cesarvaliente.kunidirectional.store.NavigationAction.ItemsScreenAction
 import com.cesarvaliente.kunidirectional.store.State
-import com.cesarvaliente.kunidirectional.store.StateDispatcher
+import com.cesarvaliente.kunidirectional.store.Store
 import com.cesarvaliente.kunidirectional.store.ThreadExecutor
-import com.cesarvaliente.kunidirectional.store.action.CreationAction.CreateItemAction
-import com.cesarvaliente.kunidirectional.store.action.NavigationAction.ItemsScreenAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateColorAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateItemAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateColorAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateItemAction
 import java.lang.ref.WeakReference
 
 class EditItemControllerView(
         val editItemViewCallback: WeakReference<EditItemViewCallback>,
-        actionDispatcher: ActionDispatcher = actionDispatcherSingleton,
-        stateDispatcher: StateDispatcher = stateDispatcherSingleton,
-        handleStateDifferentThread: ThreadExecutor? = null)
-    : ControllerView(actionDispatcher, stateDispatcher, handleStateDifferentThread) {
+        store: Store,
+        mainThread: ThreadExecutor? = null)
+    : ControllerView(store, mainThread) {
 
     fun createItem(localId: String, text: String, favorite: Boolean, color: Color, position: Long) =
-            dispatch(CreateItemAction(localId, text, favorite, color, position))
+            store.dispatch(CreateItemAction(localId, text, favorite, color, position))
 
     fun updateItem(localId: String, text: String, color: Color) =
-            dispatch(UpdateItemAction(localId, text, color))
+            store.dispatch(UpdateItemAction(localId, text, color))
 
     fun updateColor(localId: String, color: Color) =
-            dispatch(UpdateColorAction(localId, color))
+            store.dispatch(UpdateColorAction(localId, color))
 
     fun backToItems() =
-            dispatch(ItemsScreenAction())
+            store.dispatch(ItemsScreenAction())
 
     override fun handleState(state: State) {
         println("Thread hadleState: ${Thread.currentThread().name}")

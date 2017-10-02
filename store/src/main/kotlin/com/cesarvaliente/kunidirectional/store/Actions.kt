@@ -17,10 +17,7 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.store.action
-
-import com.cesarvaliente.kunidirectional.store.Color
-import com.cesarvaliente.kunidirectional.store.Item
+package com.cesarvaliente.kunidirectional.store
 
 sealed class Action
 

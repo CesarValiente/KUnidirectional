@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -27,8 +27,8 @@ import com.cesarvaliente.kunidirectional.persistence.queryAllItemsSortedByPositi
 import com.cesarvaliente.kunidirectional.persistence.queryByLocalId
 import com.cesarvaliente.kunidirectional.persistence.toPersistenceColor
 import com.cesarvaliente.kunidirectional.persistence.toStoreItem
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.ReorderItemsAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.ReorderItemsAction
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import org.hamcrest.CoreMatchers.not
@@ -45,7 +45,7 @@ import com.cesarvaliente.kunidirectional.store.Item as StoreItem
 import org.hamcrest.core.Is.`is` as iz
 
 @RunWith(AndroidJUnit4::class)
-class UpdateFunctionsTest {
+class UpdateHandlerTest {
     lateinit var config: RealmConfiguration
     lateinit var db: Realm
 
@@ -83,7 +83,7 @@ class UpdateFunctionsTest {
         val listOfStoreItems = listOf(item1.toStoreItem(), item2.toStoreItem(), item3.toStoreItem())
         val reorderItemsAction = ReorderItemsAction(listOfStoreItems)
 
-        UpdateFunctions.apply(reorderItemsAction)
+        UpdateHandler.handle(reorderItemsAction, {})
 
         val itemsCollection = db.queryAllItemsSortedByPosition()
         assertThat(itemsCollection, iz(not(nullValue())))
@@ -104,7 +104,7 @@ class UpdateFunctionsTest {
         val updateItemAction = UpdateAction.UpdateItemAction(
                 localId = item1.localId, text = NEW_TEXT, color = NEW_COLOR)
 
-        UpdateFunctions.apply(updateItemAction)
+        UpdateHandler.handle(updateItemAction, {})
 
         val managedItem = db.queryByLocalId(item1.localId)
         assertThat(managedItem, iz(not(nullValue())))
@@ -122,7 +122,7 @@ class UpdateFunctionsTest {
         val updateFavoriteAction = UpdateAction.UpdateFavoriteAction(
                 localId = item1.localId, favorite = NEW_FAVORITE)
 
-        UpdateFunctions.apply(updateFavoriteAction)
+        UpdateHandler.handle(updateFavoriteAction, {})
 
         val managedItem = db.queryByLocalId(item1.localId)
         assertThat(managedItem, iz(not(nullValue())))
@@ -139,7 +139,7 @@ class UpdateFunctionsTest {
         val updateColorAction = UpdateAction.UpdateColorAction(
                 localId = item1.localId, color = NEW_COLOR)
 
-        UpdateFunctions.apply(updateColorAction)
+        UpdateHandler.handle(updateColorAction, {})
 
         val managedItem = db.queryByLocalId(item1.localId)
         assertThat(managedItem, iz(not(nullValue())))

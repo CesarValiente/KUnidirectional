@@ -17,19 +17,19 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import com.cesarvaliente.kunidirectional.persistence.Item
 import com.cesarvaliente.kunidirectional.persistence.insertOrUpdate
 import com.cesarvaliente.kunidirectional.persistence.toPersistenceColor
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.action.CreationAction
-import com.cesarvaliente.kunidirectional.store.action.CreationAction.CreateItemAction
+import com.cesarvaliente.kunidirectional.store.Action
+import com.cesarvaliente.kunidirectional.store.CreationAction
+import com.cesarvaliente.kunidirectional.store.CreationAction.CreateItemAction
 import io.realm.Realm
 
-object CreationFunctions : ActionFunction<CreationAction> {
+object CreationHandler : ActionHandler<CreationAction> {
 
-    override fun apply(action: CreationAction, actionDispatcher: ActionDispatcher?) {
+    override fun handle(action: CreationAction, actionDispatcher: (Action) -> Unit) {
         when (action) {
             is CreateItemAction -> createItem(action)
         }

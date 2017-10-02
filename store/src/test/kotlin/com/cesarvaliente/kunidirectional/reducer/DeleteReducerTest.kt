@@ -19,7 +19,7 @@
 
 package com.cesarvaliente.kunidirectional.reducer
 
-import com.cesarvaliente.kunidirectional.store.action.DeleteAction
+import com.cesarvaliente.kunidirectional.store.DeleteAction
 import com.cesarvaliente.kunidirectional.store.reducer.DeleteReducer
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertThat

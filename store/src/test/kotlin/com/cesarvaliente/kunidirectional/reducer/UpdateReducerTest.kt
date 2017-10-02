@@ -20,9 +20,9 @@
 package com.cesarvaliente.kunidirectional.reducer
 
 import com.cesarvaliente.kunidirectional.store.Color
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateColorAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateItemAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateColorAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateItemAction
 import com.cesarvaliente.kunidirectional.store.reducer.UpdateReducer
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertThat

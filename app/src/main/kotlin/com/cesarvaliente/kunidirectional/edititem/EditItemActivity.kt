@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import com.cesarvaliente.kunidirectional.AppStore
 import com.cesarvaliente.kunidirectional.MainThread
 import com.cesarvaliente.kunidirectional.R
 import com.cesarvaliente.kunidirectional.ViewActivity
@@ -35,14 +36,11 @@ import com.cesarvaliente.kunidirectional.updateText
 import kotlinx.android.synthetic.main.edit_item_layout.*
 import java.lang.ref.WeakReference
 
-
 class EditItemActivity : ViewActivity<EditItemControllerView>(), EditItemViewCallback {
 
     companion object {
-        fun createEditItemActivityIntent(context: Context): Intent {
-            val intent = Intent(context, EditItemActivity::class.java)
-            return intent
-        }
+        fun createEditItemActivityIntent(context: Context): Intent =
+                Intent(context, EditItemActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +53,8 @@ class EditItemActivity : ViewActivity<EditItemControllerView>(), EditItemViewCal
     override fun setupControllerView() {
         val controllerView = EditItemControllerView(
                 editItemViewCallback = WeakReference(this),
-                handleStateDifferentThread = MainThread(WeakReference(this)))
+                store = AppStore,
+                mainThread = MainThread(WeakReference(this)))
         registerControllerViewForLifecycle(controllerView)
     }
 

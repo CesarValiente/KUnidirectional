@@ -17,7 +17,20 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.store
+package com.cesarvaliente.kunidirectional
 
-annotation class AllOpen
+import android.util.Log
+import com.cesarvaliente.kunidirectional.persistence.PersistenceSideEffect
+import com.cesarvaliente.kunidirectional.persistence.PersistenceThreadService
+import com.cesarvaliente.kunidirectional.store.Store
+import com.cesarvaliente.kunidirectional.store.StoreThreadService
+
+object AppStore : Store(
+        storeThread = StoreThreadService(),
+        logger = { tag, message -> Log.d(tag, message) }) {
+
+    fun enablePersistence() {
+        PersistenceSideEffect(store = this, persistenceThread = PersistenceThreadService())
+    }
+}
 

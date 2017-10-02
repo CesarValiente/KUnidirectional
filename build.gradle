@@ -11,7 +11,6 @@ buildscript {
         classpath config.gradlePlugin
         classpath config.kotlinGradlePlugin
         classpath config.kotlinAndroidExtensions
-        classpath config.kotlinAllOpen
         classpath config.realmPlugin
     }
 }

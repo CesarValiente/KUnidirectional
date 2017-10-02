@@ -24,7 +24,7 @@ import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.ItemsListScreen
 import com.cesarvaliente.kunidirectional.store.Navigation
 import com.cesarvaliente.kunidirectional.store.State
-import com.cesarvaliente.kunidirectional.store.action.Action
+import com.cesarvaliente.kunidirectional.store.Action
 import com.cesarvaliente.kunidirectional.store.findAndMap
 
 abstract class Reducer<in T : Action> {

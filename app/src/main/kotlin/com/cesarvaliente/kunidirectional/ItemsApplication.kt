@@ -27,14 +27,14 @@ class ItemsApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        singletonInitialization()
-        setupPersistence(context = this)
+        storeInitialization()
     }
 
-    private fun singletonInitialization() {
-        storeActionSubscriberSingleton
-
-        if (isPersistenceEnabled()) persistenceActionSubscriberSingleton
+    private fun storeInitialization() {
+        if (isPersistenceEnabled()) {
+            AppStore.enablePersistence()
+            setupPersistence(context = this)
+        }
     }
 
     private fun isPersistenceEnabled(): Boolean {

@@ -20,8 +20,8 @@
 package com.cesarvaliente.kunidirectional.store.reducer
 
 import com.cesarvaliente.kunidirectional.store.Item
-import com.cesarvaliente.kunidirectional.store.action.DeleteAction
-import com.cesarvaliente.kunidirectional.store.action.DeleteAction.DeleteItemAction
+import com.cesarvaliente.kunidirectional.store.DeleteAction
+import com.cesarvaliente.kunidirectional.store.DeleteAction.DeleteItemAction
 
 
 object DeleteReducer : Reducer<DeleteAction>() {

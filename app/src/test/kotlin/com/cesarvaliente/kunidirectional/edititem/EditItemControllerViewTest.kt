@@ -24,24 +24,22 @@ import com.cesarvaliente.kunidirectional.FAVORITE
 import com.cesarvaliente.kunidirectional.LOCAL_ID
 import com.cesarvaliente.kunidirectional.POSITION
 import com.cesarvaliente.kunidirectional.TEXT
+import com.cesarvaliente.kunidirectional.TestStore
 import com.cesarvaliente.kunidirectional.createItem
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
 import com.cesarvaliente.kunidirectional.store.Color
 import com.cesarvaliente.kunidirectional.store.EditItemScreen
 import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.ItemsListScreen
 import com.cesarvaliente.kunidirectional.store.Navigation
 import com.cesarvaliente.kunidirectional.store.State
-import com.cesarvaliente.kunidirectional.store.StateDispatcher
-import com.cesarvaliente.kunidirectional.store.StoreActionSubscriber
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.clearInvocations
 import com.nhaarman.mockito_kotlin.reset
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.hamcrest.CoreMatchers.not
+import org.junit.After
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -51,33 +49,29 @@ import java.lang.ref.WeakReference
 import org.hamcrest.CoreMatchers.`is` as iz
 
 class EditItemControllerViewTest {
-    lateinit var actionDispatcher: ActionDispatcher
-    lateinit var stateDispatcher: StateDispatcher
-    @Mock lateinit var editItemViewCallback: EditItemViewCallback
-    lateinit var editItemControllerView: EditItemControllerView
-    lateinit var editItemControllerViewSpy: EditItemControllerView
+    private @Mock lateinit var editItemViewCallback: EditItemViewCallback
+    private lateinit var editItemControllerView: EditItemControllerView
+    private lateinit var editItemControllerViewSpy: EditItemControllerView
+    private lateinit var store: TestStore
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
 
-        actionDispatcher = ActionDispatcher()
-        stateDispatcher = StateDispatcher()
-
-        StoreActionSubscriber(
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher)
-
+        store = TestStore
         editItemControllerView = EditItemControllerView(
                 editItemViewCallback = WeakReference(editItemViewCallback),
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher)
+                store = store)
 
+        editItemControllerView.isActivityRunning = true
         editItemControllerViewSpy = spy(editItemControllerView)
-        editItemControllerViewSpy.onStart()
+        store.stateHandlers.add(editItemControllerViewSpy)
 
-        clearInvocations(editItemControllerViewSpy)
-        clearInvocations(editItemViewCallback)
+    }
+
+    @After
+    fun clean() {
+        store.clear()
     }
 
     @Test
@@ -111,7 +105,7 @@ class EditItemControllerViewTest {
         val state = State(itemsListScreen = ItemsListScreen(listOf(item1)),
                 editItemScreen = EditItemScreen(item1),
                 navigation = Navigation.EDIT_ITEM)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         val NEW_TEXT = "new text"
         editItemControllerViewSpy.updateItem(localId = item1.localId,
@@ -143,7 +137,7 @@ class EditItemControllerViewTest {
         val state = State(itemsListScreen = ItemsListScreen(listOf(item1)),
                 editItemScreen = EditItemScreen(item1),
                 navigation = Navigation.EDIT_ITEM)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         editItemControllerViewSpy.updateColor(localId = item1.localId,
                 color = Color.BLUE)
@@ -171,7 +165,7 @@ class EditItemControllerViewTest {
     @Test
     fun should_back_to_Items_list_and_handle_State() {
         val state = State(navigation = Navigation.EDIT_ITEM)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         editItemControllerViewSpy.backToItems()
 
@@ -188,7 +182,7 @@ class EditItemControllerViewTest {
     fun should_handle_State_and_call_updateItem_function() {
         val state = State(navigation = Navigation.EDIT_ITEM)
         editItemControllerView.handleState(state)
-        verify(editItemViewCallback).updateItem(any<Item>())
+        verify(editItemViewCallback).updateItem(any())
     }
 
     @Test

@@ -20,8 +20,8 @@
 package com.cesarvaliente.kunidirectional.store.reducer
 
 import com.cesarvaliente.kunidirectional.store.Item
-import com.cesarvaliente.kunidirectional.store.action.CreationAction
-import com.cesarvaliente.kunidirectional.store.action.CreationAction.CreateItemAction
+import com.cesarvaliente.kunidirectional.store.CreationAction
+import com.cesarvaliente.kunidirectional.store.CreationAction.CreateItemAction
 
 object CreationReducer : Reducer<CreationAction>() {
 

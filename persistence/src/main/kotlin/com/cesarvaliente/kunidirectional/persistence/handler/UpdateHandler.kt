@@ -17,22 +17,22 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import com.cesarvaliente.kunidirectional.persistence.queryByLocalId
 import com.cesarvaliente.kunidirectional.persistence.toPersistenceColor
 import com.cesarvaliente.kunidirectional.persistence.update
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.ReorderItemsAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateColorAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateFavoriteAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateItemAction
+import com.cesarvaliente.kunidirectional.store.Action
+import com.cesarvaliente.kunidirectional.store.UpdateAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.ReorderItemsAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateColorAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateFavoriteAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateItemAction
 import io.realm.Realm
 
-object UpdateFunctions : ActionFunction<UpdateAction> {
+object UpdateHandler : ActionHandler<UpdateAction> {
 
-    override fun apply(action: UpdateAction, actionDispatcher: ActionDispatcher?) {
+    override fun handle(action: UpdateAction, actionDispatcher: (Action) -> Unit) {
         when (action) {
             is ReorderItemsAction -> reorderItems(action)
             is UpdateItemAction -> updateItem(action)
