@@ -31,6 +31,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.Menu
 import android.view.MenuItem
+import com.cesarvaliente.kunidirectional.AppStore
 import com.cesarvaliente.kunidirectional.MainThread
 import com.cesarvaliente.kunidirectional.R
 import com.cesarvaliente.kunidirectional.ViewActivity
@@ -75,7 +76,8 @@ class ItemsActivity : ViewActivity<ItemsControllerView>(), ItemsViewCallback {
     override fun setupControllerView() {
         val controllerView = ItemsControllerView(
                 itemsViewCallback = WeakReference(this),
-                handleStateDifferentThread = MainThread(WeakReference(this)))
+                store = AppStore,
+                mainThread = MainThread(WeakReference(this)))
         registerControllerViewForLifecycle(controllerView)
     }
 
