@@ -19,19 +19,17 @@
 
 package com.cesarvaliente.kunidirectional.itemslist
 
+import com.cesarvaliente.kunidirectional.TestStore
 import com.cesarvaliente.kunidirectional.createItem
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
 import com.cesarvaliente.kunidirectional.store.ItemsListScreen
 import com.cesarvaliente.kunidirectional.store.Navigation
 import com.cesarvaliente.kunidirectional.store.State
-import com.cesarvaliente.kunidirectional.store.StateDispatcher
-import com.cesarvaliente.kunidirectional.store.StoreActionSubscriber
 import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.clearInvocations
 import com.nhaarman.mockito_kotlin.spy
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.hamcrest.CoreMatchers.*
+import org.junit.After
 import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
@@ -41,33 +39,28 @@ import java.lang.ref.WeakReference
 import org.hamcrest.CoreMatchers.`is` as iz
 
 class ItemsControllerViewTest {
-    lateinit var actionDispatcher: ActionDispatcher
-    lateinit var stateDispatcher: StateDispatcher
-    @Mock lateinit var itemsViewCallback: ItemsViewCallback
-    lateinit var itemsControllerView: ItemsControllerView
-    lateinit var itemsControllerViewSpy: ItemsControllerView
+    private @Mock lateinit var itemsViewCallback: ItemsViewCallback
+    private lateinit var itemsControllerView: ItemsControllerView
+    private lateinit var itemsControllerViewSpy: ItemsControllerView
+    private lateinit var store: TestStore
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
 
-        actionDispatcher = ActionDispatcher()
-        stateDispatcher = StateDispatcher()
-
-        StoreActionSubscriber(
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher)
-
+        store = TestStore
         itemsControllerView = ItemsControllerView(
                 itemsViewCallback = WeakReference(itemsViewCallback),
-                actionDispatcher = actionDispatcher,
-                stateDispatcher = stateDispatcher)
+                store = store)
 
+        itemsControllerView.isActivityRunning = true
         itemsControllerViewSpy = spy(itemsControllerView)
-        itemsControllerViewSpy.onStart()
+        store.stateHandlers.add(itemsControllerViewSpy)
+    }
 
-        clearInvocations(itemsControllerViewSpy)
-        clearInvocations(itemsViewCallback)
+    @After
+    fun clean() {
+        store.clear()
     }
 
     @Test
@@ -78,7 +71,7 @@ class ItemsControllerViewTest {
         val listOfItems = listOf(item1, item2, item3)
 
         val state = State(ItemsListScreen(items = listOfItems))
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         itemsControllerViewSpy.fetchItems()
 
@@ -101,7 +94,7 @@ class ItemsControllerViewTest {
         val item1 = createItem(1)
         val state = State(itemsListScreen = ItemsListScreen(listOf(item1)),
                 navigation = Navigation.ITEMS_LIST)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         itemsControllerViewSpy.toEditItemScreen(item1)
         argumentCaptor<State>().apply {
@@ -121,7 +114,7 @@ class ItemsControllerViewTest {
 
         val state = State(itemsListScreen = ItemsListScreen(defaultList),
                 navigation = Navigation.ITEMS_LIST)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         val reorderedList = listOf(item1, item2, item3)
         itemsControllerViewSpy.reorderItems(reorderedList)
@@ -143,7 +136,7 @@ class ItemsControllerViewTest {
         val item1 = createItem(1)
         val state = State(itemsListScreen = ItemsListScreen(listOf(item1)),
                 navigation = Navigation.ITEMS_LIST)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         itemsControllerViewSpy.changeFavoriteStatus(item1)
         argumentCaptor<State>().apply {
@@ -167,7 +160,7 @@ class ItemsControllerViewTest {
 
         val state = State(itemsListScreen = ItemsListScreen(defaultList),
                 navigation = Navigation.ITEMS_LIST)
-        stateDispatcher.dispatch(state)
+        store.dispatch(state)
 
         itemsControllerViewSpy.deleteItem(item1)
 
