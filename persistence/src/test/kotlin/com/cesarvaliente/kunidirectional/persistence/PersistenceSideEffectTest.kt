@@ -19,22 +19,22 @@
 
 package com.cesarvaliente.kunidirectional.persistence
 
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
+import com.cesarvaliente.kunidirectional.store.Store
 import org.junit.Assert.assertThat
 import org.junit.Test
 import org.hamcrest.CoreMatchers.`is` as iz
 
-class PersistenceActionSubscriberTest {
-    val actionDispatcher = ActionDispatcher()
+class PersistenceSideEffectTest {
+    val store = object : Store() {}
 
     @Test
-    fun should_subscribe_to_dispatcher() {
-        val persistenceActionSubscriber = PersistenceActionSubscriber(
-                actionDispatcher = actionDispatcher)
+    fun should_subscribe_to_store() {
+        val persistenceActionSubscriber = PersistenceSideEffect(
+                store = store)
 
-        with(actionDispatcher) {
+        with(store.sideEffects) {
             assertThat(isEmpty(), iz(false))
-            assertThat(isSubscribed(persistenceActionSubscriber), iz(true))
+            assertThat(contains(persistenceActionSubscriber), iz(true))
         }
     }
 }

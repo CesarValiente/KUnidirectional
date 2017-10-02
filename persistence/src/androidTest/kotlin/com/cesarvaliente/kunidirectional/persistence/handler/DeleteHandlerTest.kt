@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package com.cesarvaliente.kunidirectional.persistence.functions
+package com.cesarvaliente.kunidirectional.persistence.handler
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -40,7 +40,7 @@ import com.cesarvaliente.kunidirectional.store.Item as StoreItem
 import org.hamcrest.core.Is.`is` as iz
 
 @RunWith(AndroidJUnit4::class)
-class DeleteFunctionsTest {
+class DeleteHandlerTest {
     lateinit var config: RealmConfiguration
     lateinit var db: Realm
 
