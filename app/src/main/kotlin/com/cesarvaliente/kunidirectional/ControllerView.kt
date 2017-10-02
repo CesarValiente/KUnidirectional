@@ -19,34 +19,29 @@
 
 package com.cesarvaliente.kunidirectional
 
-import com.cesarvaliente.kunidirectional.store.ActionDispatcher
 import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.State
-import com.cesarvaliente.kunidirectional.store.StateDispatcher
-import com.cesarvaliente.kunidirectional.store.Subscriber
+import com.cesarvaliente.kunidirectional.store.StateHandler
+import com.cesarvaliente.kunidirectional.store.Store
 import com.cesarvaliente.kunidirectional.store.ThreadExecutor
-import com.cesarvaliente.kunidirectional.store.action.Action
 
 abstract class ControllerView(
-        protected val actionDispatcher: ActionDispatcher,
-        protected val stateDispatcher: StateDispatcher,
-        private val handleStateDifferentThread: ThreadExecutor? = null)
-    : LifecycleCallbacks, Subscriber<State> {
+        val store: Store,
+        mainThread: ThreadExecutor? = null)
+    : LifecycleCallbacks, StateHandler(mainThread) {
 
     override var isActivityRunning: Boolean = false
 
     val state: State
-        get() = stateDispatcher.state
+        get() = store.state
 
     val currentItem: Item
         get() = state.editItemScreen.currentItem
 
     override fun onStart() {
         isActivityRunning = true
-        if (!stateDispatcher.isSubscribed(this)) {
-            stateDispatcher.subscribe(this)
-        }
-        handleState(stateDispatcher.state)
+        store.stateHandlers.add(this)
+        handleState(store.state)
     }
 
     override fun onResume() {}
@@ -58,18 +53,11 @@ abstract class ControllerView(
     }
 
     override fun onDestroy() {
-        stateDispatcher.unsubscribe(this)
+        store.stateHandlers.remove(this)
     }
 
-    protected fun <T : Action> dispatch(action: T) {
-        actionDispatcher.dispatch(action)
-    }
-
-    override fun onNext(data: State) {
-        if (isActivityRunning) {
-            handleStateDifferentThread?.let { it.execute { handleState(state) } }
-                    ?: handleState(state)
-        }
+    override fun handle(data: State) {
+        if (isActivityRunning) handleState(state)
     }
 
     abstract fun handleState(state: State)
