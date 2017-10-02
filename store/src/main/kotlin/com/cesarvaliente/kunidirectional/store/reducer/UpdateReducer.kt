@@ -20,11 +20,11 @@
 package com.cesarvaliente.kunidirectional.store.reducer
 
 import com.cesarvaliente.kunidirectional.store.Item
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.ReorderItemsAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateColorAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateFavoriteAction
-import com.cesarvaliente.kunidirectional.store.action.UpdateAction.UpdateItemAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.ReorderItemsAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateColorAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateFavoriteAction
+import com.cesarvaliente.kunidirectional.store.UpdateAction.UpdateItemAction
 
 object UpdateReducer : Reducer<UpdateAction>() {
 

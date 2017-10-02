@@ -22,7 +22,7 @@ package com.cesarvaliente.kunidirectional.reducer
 import com.cesarvaliente.kunidirectional.store.EditItemScreen
 import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.Navigation
-import com.cesarvaliente.kunidirectional.store.action.NavigationAction
+import com.cesarvaliente.kunidirectional.store.NavigationAction
 import com.cesarvaliente.kunidirectional.store.reducer.NavigationReducer
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertThat

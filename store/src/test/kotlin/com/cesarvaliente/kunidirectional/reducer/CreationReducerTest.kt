@@ -21,7 +21,7 @@ package com.cesarvaliente.kunidirectional.reducer
 
 import com.cesarvaliente.kunidirectional.store.Item
 import com.cesarvaliente.kunidirectional.store.LOCAL_ID
-import com.cesarvaliente.kunidirectional.store.action.CreationAction.CreateItemAction
+import com.cesarvaliente.kunidirectional.store.CreationAction.CreateItemAction
 import com.cesarvaliente.kunidirectional.store.reducer.CreationReducer
 import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertThat
