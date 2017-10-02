@@ -45,14 +45,13 @@ object ExecutorServices {
     private fun store(): ExecutorService =
             Executors.newSingleThreadExecutor(NamedThreadFactory("store"))
 
-    val middleware1: ExecutorService by lazy {
-        middleware1()
+    val persistence: ExecutorService by lazy {
+        persistence()
     }
 
-    private fun middleware1(): ExecutorService =
-            Executors.newSingleThreadExecutor(NamedThreadFactory("middleware1"))
+    private fun persistence(): ExecutorService =
+            Executors.newSingleThreadExecutor(NamedThreadFactory("persistence"))
 }
-
 
 class NamedThreadFactory(private val name: String) : ThreadFactory {
 
