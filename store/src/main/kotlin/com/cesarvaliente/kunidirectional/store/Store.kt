@@ -56,28 +56,27 @@ abstract class Store(override val sideEffects: CopyOnWriteArrayList<SideEffect> 
 
     private fun handle(action: Action) {
         val newState = reduce(action, state)
+        state = newState
+
         dispatch(newState)
         sideEffects.dispatch(action)
     }
 
     override fun dispatch(state: State) {
-        this.state = state
         stateHandlers.dispatch(state)
     }
 
     private fun reduce(action: Action, currentState: State): State {
         logger("action", action.toString())
-        val newState = reduceAction(action, currentState)
-        logger("state", newState.toString())
+        val newState = when (action) {
+            is CreationAction -> CreationReducer.reduce(action, currentState)
+            is UpdateAction -> UpdateReducer.reduce(action, currentState)
+            is ReadAction -> ReadReducer.reduce(action, currentState)
+            is DeleteAction -> DeleteReducer.reduce(action, currentState)
+            is NavigationAction -> NavigationReducer.reduce(action, currentState)
+        }
+        logger("new state", newState.toString())
         return newState
     }
 
-    private fun reduceAction(action: Action, currentState: State): State =
-            when (action) {
-                is CreationAction -> CreationReducer.reduce(action, currentState)
-                is UpdateAction -> UpdateReducer.reduce(action, currentState)
-                is ReadAction -> ReadReducer.reduce(action, currentState)
-                is DeleteAction -> DeleteReducer.reduce(action, currentState)
-                is NavigationAction -> NavigationReducer.reduce(action, currentState)
-            }
 }
