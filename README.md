@@ -113,9 +113,8 @@ This app has three modules and three main components:
     2. [**State**](http://redux.js.org/docs/introduction/CoreConcepts.html#core-concepts) this entity has everything that we need to use, is a simple and immutable data structure. 
     <br/> For instance in the list items, we have the items we have to show to the user, in the edit item screen, we have what the current item has, etc.
     3. [**Dispatcher**](https://facebook.github.io/flux/docs/dispatcher.html#content) is used to *dispatch* Actions or a new State. 
-    <br/> Interested entities on handle Actions or State are subscribed to it.
     <br /> Dispatcher can be implemented in many ways, as a simple function, as a class with a list of subscribers, using external libraries that follow an event/subscriber pattern or others that follow observer pattern, etc. 
-    <br />In our approach we wanted to keep the app simple without 3rd party dependencies that make understanding this architecture more complicated and we have opted for a class that handles a list of subscribers.
+    <br />In our approach we wanted to keep the app simple without 3rd party dependencies that make understanding this architecture more complicated and we have opted for a simple function that lives in the store, so then we can dispatch actions or new states directly from the store just invoking the function.
     4. [**Reducers**](http://redux.js.org/docs/basics/Reducers.html) are pure functions that given an action and the current state of the app, apply this action to that state, and generate a completely new state (remember, a state is an immutable object). The logic of what we have to do resides here, for instance, when we want to create an item we do:
         - Create *CreateItemAction(id, text, color)*
         - Dispatch the action
