@@ -13,6 +13,11 @@ Talking about architecture is always tough, so as for support for the talk and s
 
 The slides of the talk can be found [here](https://speakerdeck.com/cesarvaliente/unidirectional-data-flow-on-android-using-kotlin).
 
+# Blog post series
+
+I've written a blog post series explaining what I covered in the talk on [Medium](https://medium.com/@CesarValiente/unidirectional-data-flow-on-android-the-blog-post-part-1-cadcf88c72f5
+).
+
 # Tell me more!
 
 Our approach is based on [Redux](https://github.com/reactjs/redux) and [Flux](https://facebook.github.io/flux/) from Facebook (that are pretty popular unidirectional data flow approaches on Web), but slightly different, taking things from each one to work on the way we want.
@@ -94,36 +99,36 @@ Nope, this code is inspired by what we do and how we do, but is much simpler, so
 
 I think an image is more valid than 1000 words:
 
-![Our approach](./art/diagrams/our_approach.png)
+![Architecture](./art/diagrams/architecture.png)
 
 # Modules and components
 
 This app has three modules and three main components:
 * **App** is the module where our *views* live, it has the components that the user interacts with.
-<br /> Also contains [**ControllerView**](https://facebook.github.io/flux/docs/in-depth-overview.html#views-and-controller-views) that acts between views and everything else. 
+<br /> Also contains [**ControllerView**](https://facebook.github.io/flux/docs/in-depth-overview.html#views-and-controller-views) that acts between views and everything else.
 <br/> If you are used to MVP pattern, they are very similar to *presenters*, so they help us to decouple the logic of our business from the view/framework.<br />
 <br /> We are going to see later the other different components, but basically what the ControllerView does is being subscribed to *State* changes, creates an *Action* after the user interacts with the View (the View has a ControllerView), *dispatches the action*, and later, when it receives a new state, communicate back to its view so the view can react to the new state and render itself.
 
-* [**Store**](http://redux.js.org/docs/basics/Store.html) is the main module of our app, our business logic resides there. 
+* [**Store**](http://redux.js.org/docs/basics/Store.html) is the main module of our app, our business logic resides there.
 <br/>If you are coming from Clean Architecture, **Store is our Domain**. The store has several and important components:
-    1. [**Actions**](http://redux.js.org/docs/basics/Actions.html) they are simple elements which indicate what we want to do, what we want to achieve. 
+    1. [**Actions**](https://redux.js.org/basics/actions) they are simple elements which indicate what we want to do, what we want to achieve.
     <br />For instance *CreateItem* is an action, *DeleteItem* is another action, and so on.
-    <br /> They can have parameters, for instance when we create an item we have to indicate its text and color, when we delete an item we have to indicate its localId so we can delete it, etc. 
+    <br /> They can have parameters, for instance when we create an item we have to indicate its text and color, when we delete an item we have to indicate its localId so we can delete it, etc.
     <br /> We have actions grouped as [sealed classes](https://kotlinlang.org/docs/reference/sealed-classes.html) so later when we handle them is much easier to do it.
-    2. [**State**](http://redux.js.org/docs/introduction/CoreConcepts.html#core-concepts) this entity has everything that we need to use, is a simple and immutable data structure. 
+    2. [**State**](https://redux.js.org/introduction/core-concepts) this entity has everything that we need to use, is a simple and immutable data structure.
     <br/> For instance in the list items, we have the items we have to show to the user, in the edit item screen, we have what the current item has, etc.
-    3. [**Dispatcher**](https://facebook.github.io/flux/docs/dispatcher.html#content) is used to *dispatch* Actions or a new State. 
-    <br /> Dispatcher can be implemented in many ways, as a simple function, as a class with a list of subscribers, using external libraries that follow an event/subscriber pattern or others that follow observer pattern, etc. 
+    3. [**Dispatcher**](https://facebook.github.io/flux/docs/dispatcher.html#content) is used to *dispatch* Actions or a new State.
+    <br /> Dispatcher can be implemented in many ways, as a simple function, as a class with a list of subscribers, using external libraries that follow an event/subscriber pattern or others that follow observer pattern, etc.
     <br />In our approach we wanted to keep the app simple without 3rd party dependencies that make understanding this architecture more complicated, and we have opted for a simple function that lives in the store, so then we can dispatch actions or new states directly from the store just invoking the function.
-    4. [**Reducers**](http://redux.js.org/docs/basics/Reducers.html) are pure functions that given an action and the current state of the app, apply this action to that state, and generate a completely new state (remember, a state is an immutable object). The logic of what we have to do resides here, for instance, when we want to create an item we do:
+    4. [**Reducers**](https://redux.js.org/basics/reducers) are pure functions that given an action and the current state of the app, apply this action to that state, and generate a completely new state (remember, a state is an immutable object). The logic of what we have to do resides here, for instance, when we want to create an item we do:
         - Create *CreateItemAction(id, text, color)*
         - Dispatch the action
-        - Reducers take that action and apply it to the current State. 
+        - Reducers take that action and apply it to the current State.
         - We have then a new state, that contains this new item in its list.
-        
- * [**Persistence**] is a side effect. Ok, first, what a side effect is? 
+
+ * **Persistence** is a side effect. Ok, first, what a side effect is?
   <br /> Side effects are optional and are used to enrich and extend the functionality of our app. For instance, in our case, the store and the state live in the memory, the data is never persisted physically, nor in a DB nor in a file, etc.
- How can add persistence to our architecture? the response is side effects. Side effects add extra functionality, like in our case persistence in a DB. 
+ How can add persistence to our architecture? the response is side effects. Side effects add extra functionality, like in our case persistence in a DB.
 <br /><br />A side effect runs after the main operation has been done, in our case, a side effect is a process that is going to run after our store has reduced an action together with the current state. Once that the store has reduced the action, is going to dispatch that action (the same) to its side effects (that are subscribed to it) if any.
  <br />Side effects will run completely separated and isolated from each other and from the rest of the world.
  <br />Side effects once that have finished handling the Action, can dispatch a new and a different action to the store, then the store will reduce that new action together with the current state.
@@ -173,7 +178,7 @@ Of course, we have, this is not the *Philosopher's Stone of the architectures*, 
 - How can we deal with too much information (memory allocation) in our State so we don't keep a reference to everything in our app?
 - How can we improve the navigation stack of our app/state?
 - etc.
-<br/><br/> Of course, all these things can be fixed, and there are different and valid ways to do it, but how you want to do it is your decision :wink: 
+<br/><br/> Of course, all these things can be fixed, and there are different and valid ways to do it, but how you want to do it is your decision :wink:
 
 # More info?
 
@@ -194,6 +199,7 @@ I've also uploaded and created some videos that are used in the slides of the pr
 
 - [César Valiente](https://twitter.com/cesarvaliente)
 - [Corey Shaw](https://github.com/coshaw)
+- [Sebas LG](https://github.com/sebaslogen)
 
 License
 -------------------
