@@ -1,5 +1,6 @@
 
-# KUnidirectional [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=5908f6a7373b6b00019c11b3&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/5908f6a7373b6b00019c11b3/build/latest?branch=master)
+# KUnidirectional [![Build status](https://build.appcenter.ms/v0.1/apps/06668019-1c2a-4377-8920-319ee75eb4fa/branches/master/badge)](https://appcenter.ms)
+
 
 A sample app that shows how we can apply **unidirectional data flow architecture** on **Android** using **Kotlin**.
 
