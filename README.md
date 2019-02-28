@@ -1,5 +1,5 @@
 
-# KUnidirectional [![Build status](https://build.appcenter.ms/v0.1/apps/06668019-1c2a-4377-8920-319ee75eb4fa/branches/master/badge)](https://appcenter.ms)
+# KUnidirectional [![Build status](https://build.appcenter.ms/v0.1/apps/041737c2-1926-4d14-a305-0e3a561ea15a/branches/master/badge)](https://appcenter.ms)
 
 
 A sample app that shows how we can apply **unidirectional data flow architecture** on **Android** using **Kotlin**.
@@ -16,8 +16,10 @@ The slides of the talk can be found [here](https://speakerdeck.com/cesarvaliente
 
 # Blog post series
 
-I've written a blog post series explaining what I covered in the talk on [Medium](https://medium.com/@CesarValiente/unidirectional-data-flow-on-android-the-blog-post-part-1-cadcf88c72f5
-).
+I've written a blog post series explaining the details of this architecture:
+- [Part 1](https://proandroiddev.com/unidirectional-data-flow-on-android-the-blog-post-part-1-cadcf88c72f5)
+- [Part 2](https://proandroiddev.com/unidirectional-data-flow-on-android-the-blog-post-part-2-b8cfedb1265a)
+- [Part 3](https://proandroiddev.com/unidirectional-data-flow-on-android-using-kotlin-the-blog-post-part-3-9ae465e44afa)
 
 # Tell me more!
 
